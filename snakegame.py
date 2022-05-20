@@ -25,10 +25,9 @@ BLUE2 = (0,100,255)
 #initialize all the modules
 pygame.init()
 font = pygame.font.SysFont('Arial',25)
-#font = pygame.font.Font('',25)
 
 class SnakeGame():
-    def __init__(self, w= 1200, h=720):
+    def __init__(self, w= 640, h=480):
         self.w = w
         self.h = h
         self.speed = SPEED
@@ -59,7 +58,6 @@ class SnakeGame():
             self._place_food()
 
     def play_step(self):
-
         # Collect User input and 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,7 +85,7 @@ class SnakeGame():
         # Place new food or just move
         if self.head == self.food:
             self.score += 1
-            self.speed += 1
+            self.speed += 0.5
             self._place_food()
         else:
             self.snake.pop()
@@ -99,10 +97,19 @@ class SnakeGame():
         return game_over,self.score
     
     def _iscollision(self):
-        if self.head.x > self.w- BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h-BLOCK_SIZE or self.head.y < 0 :
-            return True
+        #if self.head.x > self.w- BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h-BLOCK_SIZE or self.head.y < 0 :
+            #return True
         if self.head in self.snake[1:]:
             return True 
+        elif self.head.x > self.w-BLOCK_SIZE:
+            self.head = Point(0,self.head.y)
+        elif self.head.x < 0:
+            self.head = Point(self.w - BLOCK_SIZE,self.head.y)
+        elif self.head.y > self.h - BLOCK_SIZE:
+            self.head = Point(self.head.x, 0)
+        elif self.head.y < 0:
+            self.head = Point(self.head.x,self.h - BLOCK_SIZE)            
+
 
     def _move(self, direction):
         # Snake Head is updated
