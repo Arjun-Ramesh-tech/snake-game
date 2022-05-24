@@ -26,7 +26,7 @@ BLUE2 = (0,100,255)
 pygame.init()
 font = pygame.font.SysFont('Arial',25)
 
-class SnakeGame():
+class SnakeGameAI():
     def __init__(self, w= 640, h=480):
         self.w = w
         self.h = h
